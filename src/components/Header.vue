@@ -21,12 +21,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li v-if="user.logined">
-              <a >{{ '你好,'+user.humanname }}</a>
+              <a>你好,{{ user.humanname }}</a>
             </li>
             <li>
               <router-link to="/about">关于项目</router-link>
             </li>
-            <template v-if="!logined">
+            <template v-if="!user.logined">
               <li>
                 <router-link to="/logIn">登录</router-link>
               </li>

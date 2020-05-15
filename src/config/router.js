@@ -1,14 +1,22 @@
 import vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../components/Home"
-import LogIn from "../components/LogIn";
-import Register from "../components/Register";
-import About from "../components/About";
+
+import Home from "../pages/Home";
+
+import ManageUser from "../pages/manage/User";
+
+
+import LogIn from "../pages/LogIn";
+import About from "../pages/About";
+import Register from "../pages/Register";
+
+
+
 import Add from "../components/Add";
 import Edit from "../components/Edit";
 import Content from "../components/Content";
 
-import store from "./store";
+//import store from "./store";
 
 vue.use(VueRouter);
 
@@ -18,9 +26,7 @@ const routes = [
         path: '/',
         component: Home,
         children: [
-            { path: '/', component: Content },
-            { path: '/add', component: Add },
-            { path: '/edit/:id', component: Edit }
+            { path: 'manage/user', component: ManageUser, beforeEnter: checkPower(1) }
         ]
     },
     { meta: { publicPage: true }, path: '/login', component: LogIn },
@@ -33,20 +39,39 @@ const router = new VueRouter({
     mode: 'history'
 });
 
+
+
 router.beforeEach((to, from, next) => {
+    var store = router.app.$options.store;
     if (to.meta.publicPage) {
         next();
         return;
     }
-    if (store.state.user.logined) {
-        next();
+    if (!store.state.user.logined) {
+        next({
+            path: '/login', query: {
+                redirect: to.fullPath
+            }
+        });
         return;
     }
-    next({
-        path: '/login', query: {
-            redirect: to.fullPath
-        }
-    });
+
+    next();
 });
+
+
+
+function checkPower(power) {
+    return (to, from, next) => {
+        var store = router.app.$options.store;
+        if (store.state.user.power != power) {
+            next('/');
+            return;
+        }
+        next();
+    }
+}
+
+
 
 export default router;

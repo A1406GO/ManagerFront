@@ -91,27 +91,36 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
-    return {
+    let data = {
       items: [
         {
           id: "user",
-          name: "用户管理",
+          name: "信息管理",
           icon: "user",
-          items: [
-            {
-              to: "/",
-              name: "查询用户信息"
-            },
-            {
-              to: "/add",
-              name: "添加用户"
-            }
-          ]
+          items: []
         }
       ]
     };
+
+    let user = this.$store.state.user;
+
+    switch (user.power) {
+      case 1:
+
+      case 2: {
+        data.items[0].items.push({
+          to: "/manage/user",
+          name: "用户管理"
+        });
+        break;
+      }
+    }
+
+    return data;
   }
 };
 </script>
