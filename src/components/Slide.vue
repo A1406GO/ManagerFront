@@ -110,7 +110,7 @@ export default {
 
     switch (user.power) {
       case 1:
-
+        break;
       case 2: {
         data.items[0].items.push({
           to: "/manage/user",

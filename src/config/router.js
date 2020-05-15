@@ -26,7 +26,7 @@ const routes = [
         path: '/',
         component: Home,
         children: [
-            { path: 'manage/user', component: ManageUser, beforeEnter: checkPower(1) }
+            { path: 'manage/user', component: ManageUser, beforeEnter: checkPower(2) }
         ]
     },
     { meta: { publicPage: true }, path: '/login', component: LogIn },

@@ -20,12 +20,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li v-if="user.logined">
-              <a>你好,{{ user.humanname }}</a>
-            </li>
-            <li>
-              <router-link to="/about">关于项目</router-link>
-            </li>
+            <template v-if="user.logined">
+              <li>
+                <a>你好,{{ user.humanname }}</a>
+              </li>
+              <li>
+                <a v-on:click="logout" href="/">登出</a>
+              </li>
+            </template>
             <template v-if="!user.logined">
               <li>
                 <router-link to="/logIn">登录</router-link>
@@ -34,6 +36,9 @@
                 <router-link to="/register">注册</router-link>
               </li>
             </template>
+            <li>
+              <router-link to="/about">关于项目</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -42,11 +47,14 @@
 </template>
 
 <script>
-import vuex, { mapState } from "vuex";
+import vuex, { mapState, mapMutations } from "vuex";
 
 export default {
   computed: {
     ...mapState(["user"])
+  },
+  methods: {
+    ...mapMutations(["logout"])
   }
 };
 </script>
