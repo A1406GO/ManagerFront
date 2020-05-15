@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
         next();
         return;
     }
-    if (store.state.logined) {
+    if (store.state.user.logined) {
         next();
         return;
     }

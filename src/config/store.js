@@ -1,27 +1,32 @@
 import vue from "vue";
 import vuex from 'vuex'
+import { satisfies } from "semver";
 
 vue.use(vuex);
 
-var token = window.localStorage.getItem('login_token');
-var logined = token != null && token != '';
-if (!logined)
-    token = '';
 
 const store = new vuex.Store({
     state: {
-        logined,
-        token
+        user: {
+            logined: false,
+            token: '',
+            humanname: '',
+            power: 0
+        }
     },
     mutations: {
-        login(state, token) {
-            state.token = token;
-            state.logined = true;
-            window.localStorage.setItem('login_token', token);
+        login(state, info) {
+            state.user.token = info.token;
+            state.user.humanname = info.name;
+            state.user.power = info.power;
+
+            state.user.logined = true;
+            window.localStorage.setItem('login_token', info.token);
         },
         logout(state) {
-            state.token = '';
-            state.logined = false;
+            state.user.token = '';
+            state.user.logined = false;
+            state.user.humanname = '';
             window.localStorage.removeItem('login_token');
         }
     }

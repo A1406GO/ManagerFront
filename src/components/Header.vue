@@ -20,6 +20,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+            <li v-if="user.logined">
+              <a >{{ '你好,'+user.humanname }}</a>
+            </li>
             <li>
               <router-link to="/about">关于项目</router-link>
             </li>
@@ -43,7 +46,7 @@ import vuex, { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["logined"])
+    ...mapState(["user"])
   }
 };
 </script>

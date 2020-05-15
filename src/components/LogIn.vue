@@ -45,7 +45,11 @@ export default {
         })
         .then(resp => {
           if (resp.data.result) {
-            this.$store.commit("login", resp.data.token);
+            this.$store.commit("login", {
+              token: resp.data.token,
+              name: resp.data.name,
+              power: resp.data.power
+            });
             const redirect = this.$route.params.redirect;
             if (redirect) this.$router.push(redirect);
             else this.$router.push("/");

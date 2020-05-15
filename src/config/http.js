@@ -6,8 +6,8 @@ axios.defaults.baseURL = '/api/';
 
 axios.interceptors.request.use(
     config => {
-        if (store.state.token) {
-            config.headers.Authorization = store.state.token;
+        if (store.state.user.token) {
+            config.headers.Authorization = store.state.user.token;
         }
         return config;
     }, err => {
