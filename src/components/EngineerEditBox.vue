@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4>修改用户信息</h4>
-      </div>2
+      </div>
       <div v-bind:class="['form-group' , helpText_id?'has-error':'']">
         <label for="idBox">编号</label>
         <input
