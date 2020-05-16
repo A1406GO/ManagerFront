@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <top-header class="topBar"></top-header>
     <div class="content">
       <router-view></router-view>
@@ -9,7 +9,6 @@
 
 <script>
 import Header from "./components/Header";
-
 
 module.exports = {
   components: {

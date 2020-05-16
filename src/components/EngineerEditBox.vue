@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4>修改用户信息</h4>
-      </div>
+      </div>2
       <div v-bind:class="['form-group' , helpText_id?'has-error':'']">
         <label for="idBox">编号</label>
         <input
@@ -23,12 +23,7 @@
       </div>
       <div v-bind:class="['form-group' , helpText_sex?'has-error':'']">
         <label for="sexBox">性别</label>
-        <select
-          class="form-control selectpicker"
-          style="display: inherit;"
-          id="sexBox"
-          v-model="box_sex"
-        >
+        <select class="form-control" id="sexBox" v-model="box_sex">
           <option value="男">男</option>
           <option value="女">女</option>
         </select>
@@ -304,9 +299,6 @@ export default {
         else this.helpText_wage = "";
       }
     }
-  },
-  mounted() {
-    $(".selectpicker").selectpicker();
   }
 };
 </script>
@@ -337,9 +329,5 @@ h4 {
   padding: 15px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
-}
-
-select {
-  display: inherit;
 }
 </style>

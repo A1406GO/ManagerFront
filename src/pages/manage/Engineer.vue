@@ -16,23 +16,34 @@
       <div class="form-group">
         <input type="text" class="form-control" placeholder="筛选条件" v-model="filterInput" />
       </div>
+      <a class="btn btn-default" @click="downloadEngineers">导出工程师信息</a>
     </form>
 
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>编号</th>
-            <th>姓名</th>
+            <th style="cursor:pointer;" @click="order = 'id'">
+              编号
+              <i v-if="order=='id'" class="fa fa-chevron-up" aria-hidden="true" />
+            </th>
+            <th style="cursor:pointer;" @click="order = 'name'">
+              姓名
+              <i v-if="order=='name'" class="fa fa-chevron-up" aria-hidden="true" />
+            </th>
             <th>性别</th>
             <th>生日</th>
             <th>籍贯</th>
             <th>学历</th>
             <th>地址</th>
             <th>电话</th>
-            <th>工龄</th>
+            <th style="cursor:pointer;" @click="order = 'seniority'">
+              工龄
+              <i v-if="order=='seniority'" class="fa fa-chevron-down" aria-hidden="true" />
+            </th>
             <th>基本薪水</th>
-            <a class="btn btn-primary" v-on:click="showUserEditBox()">添加</a>
+            <a class="btn btn-primary" v-on:click="showUserEditBox">添加</a>
+            <a class="btn btn-danger" v-on:click="deleteAllUsers">删除所有</a>
           </tr>
         </thead>
         <tbody>
@@ -48,6 +59,7 @@
             <td>{{user.seniority}}</td>
             <td>{{user.wage}}</td>
             <!-- <router-link v-bind:to="'./edit/'+user.id" class="btn btn-default leftbtn">编辑</router-link> -->
+            <button class="btn btn-info" v-on:click="calSalary(user.wage)">薪水</button>
             <button class="btn btn-warning" v-on:click="showUserEditBox(user.id)">编辑</button>
             <button class="btn btn-danger" v-on:click="deleteUsers(user.id)">删除</button>
           </tr>
@@ -62,8 +74,13 @@
 </template>
 
 <script>
+import vue from "vue";
 import EngineerEditBox from "../../components/EngineerEditBox";
 import mapdiff from "../../utils/mapdiff";
+import { downloadEngineer } from "../../utils/download";
+import calSalaryBox from "../../components/CalSalaryBox";
+
+let calSalaryBoxClass = vue.extend(calSalaryBox);
 
 export default {
   data() {
@@ -75,6 +92,7 @@ export default {
       editMode: false,
       updateMode: true,
       modified: false,
+      order: "id",
       boxId: 0,
       boxUser: {}
     };
@@ -94,7 +112,14 @@ export default {
       });
     },
     deleteUsers(id) {
+      if (!confirm("确定要删除此用户信息吗？")) return;
       this.tmpusers.delete(id);
+      this.modified = true;
+      this.filterUsers();
+    },
+    deleteAllUsers() {
+      if (!confirm("确定要删除所有用户信息吗？")) return;
+      this.tmpusers.clear();
       this.modified = true;
       this.filterUsers();
     },
@@ -109,6 +134,32 @@ export default {
           this.filterusers.push(v);
         }
       });
+
+      var sortfunc;
+      switch (this.order) {
+        case "id":
+          sortfunc = (a, b) => {
+            if (parseInt(a.id) < parseInt(b.id)) return -1;
+            return 1;
+          };
+          break;
+        case "name":
+          sortfunc = (a, b) => {
+            if (a.name == b.name) return a.id < b.id ? -1 : 1;
+            else if (a.name < b.name) return -1;
+            return 1;
+          };
+          break;
+        case "seniority":
+          sortfunc = (a, b) => {
+            if (parseInt(a.seniority) == parseInt(b.seniority))
+              return a.id < b.id ? -1 : 1;
+            else if (parseInt(a.seniority) > parseInt(b.seniority)) return -1;
+            return 1;
+          };
+          break;
+      }
+      this.filterusers.sort(sortfunc);
     },
     showUserEditBox(id) {
       if (id) {
@@ -164,6 +215,16 @@ export default {
           alert("保存请求失败");
           console.log(err);
         });
+    },
+    calSalary(wage) {
+      var box = new calSalaryBoxClass();
+      box.wage = wage;
+      $("body").append(`<div id="calSalaryBox"></div>`);
+      //挂载
+      box.$mount("#calSalaryBox");
+    },
+    downloadEngineers() {
+      downloadEngineer(this.filterusers);
     }
   },
   watch: {
@@ -174,6 +235,9 @@ export default {
       if (this.modified)
         this.$store.commit("addCloseHint", "用户修改尚未保存，确定要退出吗？");
       else this.$store.commit("removeCloseHint");
+    },
+    order() {
+      this.filterUsers();
     }
   },
   created() {
@@ -185,6 +249,10 @@ export default {
 };
 </script>
 <style  scoped>
+.btn {
+  margin: 2px;
+}
+
 #rightbtn {
   float: right;
   margin-top: 20px;
