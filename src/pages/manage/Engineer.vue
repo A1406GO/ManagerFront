@@ -1,15 +1,16 @@
 <!--  -->
 <template>
   <div style=" position:relative; ">
-    <UserEditBox
+    <EngineerEditBox
       v-if="editMode"
       v-bind:update="updateMode"
       v-on:ok="updateUser"
       v-on:cancel=" editMode=false; "
+      v-on:validID="validID"
       v-bind="boxUser"
     />
     <div class="page-header">
-      <h2>用户信息管理</h2>
+      <h2>工程师信息管理</h2>
     </div>
     <form class="form-inline">
       <div class="form-group">
@@ -22,18 +23,30 @@
         <thead>
           <tr>
             <th>编号</th>
-            <th>用户名</th>
-            <th>密码</th>
-            <th>操作者</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>生日</th>
+            <th>籍贯</th>
+            <th>学历</th>
+            <th>地址</th>
+            <th>电话</th>
+            <th>工龄</th>
+            <th>基本薪水</th>
             <a class="btn btn-primary" v-on:click="showUserEditBox()">添加</a>
           </tr>
         </thead>
         <tbody>
           <tr v-for="user in filterusers" :key="user.id">
             <td>{{ ('000' + user.id).slice(-4)}}</td>
-            <td>{{user.userName}}</td>
-            <td>{{user.password}}</td>
-            <td>{{user.humanName}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.sex}}</td>
+            <td>{{user.birthday.toLocaleDateString()}}</td>
+            <td>{{user.education}}</td>
+            <td>{{user.hometown}}</td>
+            <td>{{user.address}}</td>
+            <td>{{user.phoneNumber}}</td>
+            <td>{{user.seniority}}</td>
+            <td>{{user.wage}}</td>
             <!-- <router-link v-bind:to="'./edit/'+user.id" class="btn btn-default leftbtn">编辑</router-link> -->
             <button class="btn btn-warning" v-on:click="showUserEditBox(user.id)">编辑</button>
             <button class="btn btn-danger" v-on:click="deleteUsers(user.id)">删除</button>
@@ -49,7 +62,7 @@
 </template>
 
 <script>
-import UserEditBox from "../../components/UserEditBox";
+import EngineerEditBox from "../../components/EngineerEditBox";
 import mapdiff from "../../utils/mapdiff";
 
 export default {
@@ -63,20 +76,16 @@ export default {
       updateMode: true,
       modified: false,
       boxId: 0,
-      boxUser: {
-        id: 0,
-        userName: "",
-        password: "",
-        humanName: ""
-      }
+      boxUser: {}
     };
   },
   methods: {
     fetchUsers() {
-      this.$axios.get("user/get/").then(response => {
+      this.$axios.get("engineer/get/").then(response => {
         var ru = this.rawusers;
         var tu = this.tmpusers;
         response.data.forEach(u => {
+          u.birthday = new Date(u.birthday);
           ru.set(u.id, u);
           tu.set(u.id, { ...u });
         });
@@ -95,7 +104,7 @@ export default {
         if (
           this.filterInput == "" ||
           ("" + v.id).indexOf(this.filterInput) != -1 ||
-          v.userName.indexOf(this.filterInput) != -1
+          v.name.indexOf(this.filterInput) != -1
         ) {
           this.filterusers.push(v);
         }
@@ -111,19 +120,19 @@ export default {
       }
       this.editMode = true;
     },
-    updateUser(id, userName, password, humanName) {
+    validID(arg) {
+      if (this.tmpusers.has(parseInt(arg.id))) {
+        arg.err = "编号不能重复";
+      }
+    },
+    updateUser(user) {
       if (this.updateMode) {
-        var u = this.tmpusers.get(id);
-        u.userName = userName;
-        u.password = password;
-        u.humanName = humanName;
+        var u = this.tmpusers.get(user.id);
+        for (let prop of Object.keys(u)) {
+          u[prop] = user[prop];
+        }
       } else {
-        this.tmpusers.set(id, {
-          id,
-          userName,
-          password,
-          humanName
-        });
+        this.tmpusers.set(user.id, { ...user });
       }
       this.editMode = false;
       this.modified = true;
@@ -142,7 +151,7 @@ export default {
     uploadSave() {
       var up = mapdiff(this.rawusers, this.tmpusers);
       this.$axios
-        .post("user/datachange/", up)
+        .post("engineer/datachange/", up)
         .then(resp => {
           if (resp.data.success) {
             alert("保存成功");
@@ -171,7 +180,7 @@ export default {
     this.fetchUsers();
   },
   components: {
-    UserEditBox
+    EngineerEditBox
   }
 };
 </script>

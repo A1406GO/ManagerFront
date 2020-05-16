@@ -1,6 +1,5 @@
 import vue from "vue";
 import vuex from 'vuex'
-import { satisfies } from "semver";
 
 vue.use(vuex);
 

@@ -110,6 +110,10 @@ export default {
 
     switch (user.power) {
       case 1:
+        data.items[0].items.push({
+          to: "/manage/engineer",
+          name: "工程师管理"
+        });
         break;
       case 2: {
         data.items[0].items.push({

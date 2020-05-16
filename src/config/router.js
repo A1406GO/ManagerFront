@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Home from "../pages/Home";
 
 import ManageUser from "../pages/manage/User";
+import ManageEngineer from "../pages/manage/Engineer";
 
 
 import LogIn from "../pages/LogIn";
@@ -26,6 +27,7 @@ const routes = [
         path: '/',
         component: Home,
         children: [
+            { path: 'manage/engineer', component: ManageEngineer, beforeEnter: checkPower(1) },
             { path: 'manage/user', component: ManageUser, beforeEnter: checkPower(2) }
         ]
     },

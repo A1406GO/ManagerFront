@@ -4,6 +4,7 @@ import config from "./config";
 
 import App from "./App";
 
+
 let myconfig = {
     el: '#app',
     components: { App },

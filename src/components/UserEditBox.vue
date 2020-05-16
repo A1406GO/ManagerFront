@@ -17,18 +17,18 @@
         <span v-if="helpText_id" class="help-block">{{ helpText_id }}</span>
       </div>
       <div v-bind:class="['form-group' , helpText_userName?'has-error':'']">
-        <label for="idBox">用户名</label>
-        <input type="ID" class="form-control" id="idBox" placeholder="用户名" v-model="box_userName" />
+        <label for="usernameBox">用户名</label>
+        <input type="text" class="form-control" id="usernameBox" placeholder="用户名" v-model="box_userName" />
         <span v-if="helpText_userName" class="help-block">{{ helpText_userName }}</span>
       </div>
       <div v-bind:class="['form-group' , helpText_password?'has-error':'']">
-        <label for="idBox">密码</label>
-        <input type="ID" class="form-control" id="idBox" placeholder="密码" v-model="box_password" />
+        <label for="passwordBox">密码</label>
+        <input type="text" class="form-control" id="passwordBox" placeholder="密码" v-model="box_password" />
         <span v-if="helpText_password" class="help-block">{{ helpText_password }}</span>
       </div>
       <div v-bind:class="['form-group' , helpText_humanName?'has-error':'']">
-        <label for="idBox">操作者</label>
-        <input type="ID" class="form-control" id="idBox" placeholder="操作者" v-model="box_humanName" />
+        <label for="hnameBox">操作者</label>
+        <input type="text" class="form-control" id="hnameBox" placeholder="操作者" v-model="box_humanName" />
         <span v-if="helpText_humanName" class="help-block">{{ helpText_humanName }}</span>
       </div>
     </div>
