@@ -11,14 +11,6 @@ import LogIn from "../pages/LogIn";
 import About from "../pages/About";
 import Register from "../pages/Register";
 
-
-
-import Add from "../components/Add";
-import Edit from "../components/Edit";
-import Content from "../components/Content";
-
-//import store from "./store";
-
 vue.use(VueRouter);
 
 
