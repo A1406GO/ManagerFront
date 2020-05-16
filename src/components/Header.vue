@@ -54,7 +54,12 @@ export default {
     ...mapState(["user"])
   },
   methods: {
-    ...mapMutations(["logout"])
+    logout() {
+      let hint = this.$store.state.closeHint;
+      if (!hint || (hint && confirm(hint))) {
+        this.$store.commit("logout");
+      }
+    }
   }
 };
 </script>

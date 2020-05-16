@@ -12,7 +12,8 @@ const store = new vuex.Store({
             token: '',
             humanname: '',
             power: 0
-        }
+        },
+        closeHint: ''
     },
     mutations: {
         login(state, info) {
@@ -28,7 +29,21 @@ const store = new vuex.Store({
             state.user.logined = false;
             state.user.humanname = '';
             window.localStorage.removeItem('login_token');
+        },
+        addCloseHint(state, hint) {
+            state.closeHint = hint;
+        },
+        removeCloseHint(state) {
+            state.closeHint = '';
         }
+    }
+})
+
+window.addEventListener('beforeunload', (e) => {
+    let hint = store.state.closeHint;
+    if (hint) {
+        (window.event || e).returnValue = hint;
+        return hint;
     }
 })
 
