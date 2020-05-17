@@ -28,14 +28,9 @@
                 <a v-on:click="logout" href="/">登出</a>
               </li>
             </template>
-            <template v-if="!user.logined">
-              <li>
-                <router-link to="/logIn">登录</router-link>
-              </li>
-              <li>
-                <router-link to="/register">注册</router-link>
-              </li>
-            </template>
+            <li>
+              <router-link v-if="!user.logined" to="/logIn">登录</router-link>
+            </li>
             <li>
               <router-link to="/about">关于项目</router-link>
             </li>

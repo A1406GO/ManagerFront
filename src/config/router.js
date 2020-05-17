@@ -9,7 +9,6 @@ import ManageEngineer from "../pages/manage/Engineer";
 
 import LogIn from "../pages/LogIn";
 import About from "../pages/About";
-import Register from "../pages/Register";
 
 vue.use(VueRouter);
 
@@ -24,7 +23,6 @@ const routes = [
         ]
     },
     { meta: { publicPage: true }, path: '/login', component: LogIn },
-    { meta: { publicPage: true }, path: '/register', component: Register },
     { meta: { publicPage: true }, path: '/about', component: About }
 ];
 

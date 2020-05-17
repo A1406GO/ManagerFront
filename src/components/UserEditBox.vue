@@ -7,7 +7,7 @@
       <div v-bind:class="['form-group' , helpText_id?'has-error':'']">
         <label for="idBox">用户ID</label>
         <input
-          v-bind:disabled="update"
+          v-bind:disabled="update?true:false"
           type="ID"
           class="form-control"
           id="idBox"
@@ -18,17 +18,35 @@
       </div>
       <div v-bind:class="['form-group' , helpText_userName?'has-error':'']">
         <label for="usernameBox">用户名</label>
-        <input type="text" class="form-control" id="usernameBox" placeholder="用户名" v-model="box_userName" />
+        <input
+          type="text"
+          class="form-control"
+          id="usernameBox"
+          placeholder="用户名"
+          v-model="box_userName"
+        />
         <span v-if="helpText_userName" class="help-block">{{ helpText_userName }}</span>
       </div>
       <div v-bind:class="['form-group' , helpText_password?'has-error':'']">
         <label for="passwordBox">密码</label>
-        <input type="text" class="form-control" id="passwordBox" placeholder="密码" v-model="box_password" />
+        <input
+          type="text"
+          class="form-control"
+          id="passwordBox"
+          placeholder="密码"
+          v-model="box_password"
+        />
         <span v-if="helpText_password" class="help-block">{{ helpText_password }}</span>
       </div>
       <div v-bind:class="['form-group' , helpText_humanName?'has-error':'']">
         <label for="hnameBox">操作者</label>
-        <input type="text" class="form-control" id="hnameBox" placeholder="操作者" v-model="box_humanName" />
+        <input
+          type="text"
+          class="form-control"
+          id="hnameBox"
+          placeholder="操作者"
+          v-model="box_humanName"
+        />
         <span v-if="helpText_humanName" class="help-block">{{ helpText_humanName }}</span>
       </div>
     </div>
@@ -90,31 +108,43 @@ export default {
         this.box_humanName = this.humanName;
       }
     },
-    box_id() {
-      this.box_id = this.box_id.replace(/[^\d]/g, "");
-      if (!this.box_id) this.helpText_id = "ID不能为空";
-      else if (this.box_id.length > 4) this.helpText_id = "ID不能超过4位";
-      else this.helpText_id = "";
+    box_id: {
+      immediate: true,
+      handler(val, oldVal) {
+        this.box_id = this.box_id.replace(/[^\d]/g, "");
+        if (!this.box_id) this.helpText_id = "ID不能为空";
+        else if (this.box_id.length > 4) this.helpText_id = "ID不能超过4位";
+        else this.helpText_id = "";
+      }
     },
-    box_userName() {
-      if (!this.box_userName) this.helpText_userName = "用户名不能为空";
-      else if (this.box_userName.length > 20)
-        this.helpText_userName = "用户名长度不能超过20个字符";
-      else this.helpText_userName = "";
+    box_userName: {
+      immediate: true,
+      handler(val, oldVal) {
+        if (!this.box_userName) this.helpText_userName = "用户名不能为空";
+        else if (this.box_userName.length > 20)
+          this.helpText_userName = "用户名长度不能超过20个字符";
+        else this.helpText_userName = "";
+      }
     },
-    box_password() {
-      if (!this.box_password) this.helpText_password = "密码不能为空";
-      else if (this.box_password.length < 6)
-        this.helpText_password = "密码长度不能少于6个字符";
-      else if (this.box_password.length > 20)
-        this.helpText_password = "密码长度不能超过20个字符";
-      else this.helpText_password = "";
+    box_password: {
+      immediate: true,
+      handler(val, oldVal) {
+        if (!this.box_password) this.helpText_password = "密码不能为空";
+        else if (this.box_password.length < 6)
+          this.helpText_password = "密码长度不能少于6个字符";
+        else if (this.box_password.length > 20)
+          this.helpText_password = "密码长度不能超过20个字符";
+        else this.helpText_password = "";
+      }
     },
-    box_humanName() {
-      if (!this.box_humanName) this.helpText_humanName = "操作者不能为空";
-      else if (this.box_humanName.length > 20)
-        this.helpText_humanName = "操作者长度不能超过20个字符";
-      else this.helpText_humanName = "";
+    box_humanName: {
+      immediate: true,
+      handler(val, oldVal) {
+        if (!this.box_humanName) this.helpText_humanName = "操作者不能为空";
+        else if (this.box_humanName.length > 20)
+          this.helpText_humanName = "操作者长度不能超过20个字符";
+        else this.helpText_humanName = "";
+      }
     }
   }
 };

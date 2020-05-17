@@ -4,7 +4,29 @@
     <div class="jumbotron masthead">
       <div class="container">
         <h1>员工信息管理系统</h1>
-        <h3>简洁、直观、强悍的前端开发框架，让web开发更迅速、简单。</h3>
+        <table class="table">
+          <tr>
+            <th>参与人员</th>
+            <th>职责</th>
+          </tr>
+          <tr>
+            <td>王逸磊</td>
+            <td>项目前端/整体架构</td>
+          </tr>
+          <tr>
+            <td>周则千</td>
+            <td>项目后端</td>
+          </tr>
+          <tr>
+            <td>李非凡</td>
+            <td>项目后端</td>
+          </tr>
+          <tr>
+            <td>马佳进</td>
+            <td>数据库结构/文档管理</td>
+          </tr>
+        </table>
+        <h3></h3>
         <p>
           <a
             class="btn btn-primary btn-lg btn-shadow"
