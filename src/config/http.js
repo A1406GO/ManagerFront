@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "./store";
 import router from "./router";
 
-axios.defaults.baseURL = '/api/';
+axios.defaults.baseURL = '/';
 
 axios.interceptors.request.use(
     config => {
